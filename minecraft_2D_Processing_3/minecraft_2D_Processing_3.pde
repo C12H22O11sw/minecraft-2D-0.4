@@ -215,3 +215,103 @@ void draw(){
     overworld.makeWorld();
  }
 }
+
+package display;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+
+import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
+
+public class Block {
+  int x,y;
+  BufferedImage bufferdImage = null;
+  Block(int x, int y, String imageName){
+  // Buffered Image{
+    
+  // try
+    try{
+      bufferdImage = ImageIO.read(this.getClass().getResourceAsStream("dirtBlock.gif"));
+    }
+  // catch
+    catch(Exception e){
+      System.err.println("There was an error loading your image.");
+    }
+  // }Buffered Image
+  }  
+  void update(){
+  
+  }
+  void draw(Graphics g){
+    g.drawImage(bufferdImage, x, y, null);
+  }
+
+
+
+}
+package display;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+
+import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.Timer;
+
+public class GamePanel extends JPanel implements ActionListener{
+  
+  
+  Timer timer;
+  Block block[][] = new Block[10][10];  
+  GamePanel(){
+    timer = new Timer(1000/60,this);
+    timer.start();
+  }
+  
+  @Override 
+  public void paintComponent(Graphics g){
+    block[0][0] = new Block(1,1,"");
+    block[0][0].draw(g);
+  }
+  
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    // TODO Auto-generated method stub
+    //System.out.println("timing");
+    repaint();
+    
+  }
+
+}
+package display;
+
+import javax.swing.JFrame;
+
+public class GameWindow {
+  int width;
+  int height;
+  JFrame frame;
+  GamePanel gamepanel;
+  public static void main(String[] args) {
+    GameWindow window = new GameWindow(1080,800);
+  }
+  GameWindow(int width, int height){
+    this.width = width;
+    this.height = height;
+    frame = new JFrame();
+    gamepanel = new GamePanel();
+    frame.add(gamepanel);
+    frame.setSize(width, height);
+    frame.setVisible(true);
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+  }
+  void update(){
+  }
+}
+
